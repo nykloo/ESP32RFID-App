@@ -29,5 +29,22 @@
                 <Button Text="Set Wifi Settings" Command="{Binding SetWifi}"></Button>
             </VerticalStackLayout>
         </Frame>
+        <Frame>
+            <VerticalStackLayout>
+                <Label FontAttributes="Bold">Firmware</Label>
+                <HorizontalStackLayout>
+                    <Label>Path to firmware.bin: </Label>
+                    <Label Text="{Binding FirmwarePath}"></Label>
+                </HorizontalStackLayout>
+
+                <Button Text="Select Firmware bin" Command="{Binding SelectFirmware}"></Button>
+                <Button Text="Upload Firmware bin" Command="{Binding UploadFirmware}"></Button>
+            </VerticalStackLayout>
+        </Frame>
+        <ScrollView HeightRequest="200">
+            <Label  Text="{Binding LogText}">
+             
+            </Label>
+        </ScrollView>
     </VerticalStackLayout>
 </ContentPage>
