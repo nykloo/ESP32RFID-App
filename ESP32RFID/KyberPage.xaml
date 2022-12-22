@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ESP32RFID.ViewModels"
+             x:Class="ESP32RFID.KyberPage"
+             Title="Kyber Mode"
+             >
+    <ContentPage.BindingContext>
+        <vm:KyberModeViewModel></vm:KyberModeViewModel>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+            <HorizontalStackLayout Padding="5" Spacing="5">
+                <Button Text="Connect" Command="{Binding Connect}"></Button>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Padding="5" Spacing="5">
+                <Label VerticalTextAlignment="End" Text="Status: "></Label>
+                <Label VerticalTextAlignment="End" Text="{Binding Status}"></Label>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Padding="5" Spacing="5">
+                <Picker ItemsSource="{Binding CrystalNames}" SelectedItem="{Binding SelectedCrystal}"></Picker>
+                <Button Text="Start Writing Mode" Command="{Binding StartWrite}"></Button>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Padding="5" Spacing="5">
+                <Button Text="Start Reading Mode" Command="{Binding StartRead}"></Button>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Padding="5" Spacing="5">
+                <Label VerticalTextAlignment="End"  Text="Read Value: "></Label>
+                <Label VerticalTextAlignment="End"  Text="{Binding ReadCrystal}"></Label>
+                <Label VerticalTextAlignment="End"  Text="{Binding LastReadValue}"></Label>
+            </HorizontalStackLayout>
+            <Button Text="Disable RFID Reader" Command="{Binding Disable}"></Button>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

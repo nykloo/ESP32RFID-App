@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ESP32RFID.ViewModels"
+             x:Class="ESP32RFID.Settings"
+             Title="Settings"
+             Padding="10"
+             >
+    <ContentPage.BindingContext>
+        <vm:SettingViewModel></vm:SettingViewModel>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout  >
+        <Label Text="{Binding Status}"></Label>
+        <Frame>
+            <VerticalStackLayout>
+            <Label FontAttributes="Bold">Wifi</Label>
+            <HorizontalStackLayout>
+                <Label>SSID</Label>
+                    <Entry Placeholder="My Wifi Network" Text="{Binding Ssid}"></Entry>
+            </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label>Password</Label>
+                    <Entry  Text="{Binding Password}"></Entry>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label>Configure as access point</Label>
+                    <CheckBox IsChecked="{Binding IsAp}"></CheckBox>
+                </HorizontalStackLayout>
+                <Button Text="Set Wifi Settings" Command="{Binding SetWifi}"></Button>
+            </VerticalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

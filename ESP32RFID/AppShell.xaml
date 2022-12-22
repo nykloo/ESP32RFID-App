@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ESP32RFID.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ESP32RFID"
+    >
+
+    
+    <TabBar>
+        <Tab>
+            <ShellContent
+                Title="Kyber"
+                ContentTemplate="{DataTemplate local:KyberPage}"
+                Route="KyberMode" />
+            <ShellContent
+                Title="Raw RFID"
+                ContentTemplate="{DataTemplate local:RawRfidPage}"
+                Route="RawRfid" />
+            <ShellContent
+                Title="Settings"
+                ContentTemplate="{DataTemplate local:Settings}"
+                Route="Settings" />
+        </Tab>
+    </TabBar>
+
+</Shell>
