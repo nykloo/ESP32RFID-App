@@ -75,9 +75,14 @@ namespace ESP32RFID.Services
                 Debug.WriteLine($"ws for {url}");
                 wsClient ??= new WebsocketClient(url);
                 wsClient.ReconnectTimeout = TimeSpan.FromSeconds(30);
-                wsClient.ReconnectionHappened.Subscribe(info => connectionState.OnNext(ESP32RfidClientState.CONNECTED));
+                wsClient.ReconnectionHappened.Subscribe(info => {
+                    connectionState.OnNext(ESP32RfidClientState.CONNECTED);
+                }
+                );
                 wsClient.DisconnectionHappened.Subscribe(info => connectionState.OnNext(ESP32RfidClientState.CONNECTING));
                 wsClient.MessageReceived.Subscribe(handleMessage);
+                await Task.Run(() => StartSendingPing(client));
+
 
             });
             ConnectionState.Subscribe(state =>
@@ -92,11 +97,28 @@ namespace ESP32RFID.Services
                 }
             });
         }
+        private async Task StartSendingPing(WebsocketClient client)
+        {
+            while (true)
+            {
+                await Task.Delay(5000);
+                wsClient.Send("ping");
+            }
+        }
         public async Task Connect()
         {
             connectionState.OnNext(ESP32RfidClientState.CONNECTING);
-            await wsClient.Start();
-            connectionState.OnNext(ESP32RfidClientState.CONNECTED);
+            try
+            {
+                await wsClient.StartOrFail();
+                connectionState.OnNext(ESP32RfidClientState.CONNECTED);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                connectionState.OnNext(ESP32RfidClientState.DISCONNECTED);
+
+            }
         }
         public void ReadKyber()
         {
@@ -174,35 +196,43 @@ namespace ESP32RFID.Services
             Debug.WriteLine(msg.Text);
             try
             {
-                var json = JObject.Parse(msg.Text);
-                if (json["message_type"].Value<string>() == "response")
+                if (msg.Text == "pong")
                 {
-                    if (json["response_of"].Value<string>() == "write_kyber" || json["response_of"].Value<string>() == "write")
+                    Connected = true;
+                }
+                else
+                {
+                    var json = JObject.Parse(msg.Text);
+                    if (json["message_type"].Value<string>() == "response")
                     {
-                        var result = new RfidResult()
+                        if (json["response_of"].Value<string>() == "write_kyber" || json["response_of"].Value<string>() == "write")
                         {
-                            data = json["data"].Value<int>(),
-                            address = json["address"].Value<byte>(),
-                            error = json["error"].Value<bool>()
-                        };
-                        writeResults.OnNext(result);
-                        if (result.error)
-                        {
-                            errors.OnNext("Write Error");
-                        }
+                            var result = new RfidResult()
+                            {
+                                data = json["data"].Value<int>(),
+                                address = json["address"].Value<byte>(),
+                                error = json["error"].Value<bool>()
+                            };
+                            writeResults.OnNext(result);
+                            if (result.error)
+                            {
+                                errors.OnNext("Write Error");
+                            }
 
-                    }
-                    if (json["response_of"].Value<string>() == "read_kyber" || json["response_of"].Value<string>() == "read")
-                    {
-                        var result = new RfidResult() { 
-                            data = json["data"].Value<int>(), 
-                            address = json["address"].Value<byte>(),
-                            error = json["error"].Value<bool>()
-                        };
-                        readResults.OnNext(result); 
-                        if (result.error)
+                        }
+                        if (json["response_of"].Value<string>() == "read_kyber" || json["response_of"].Value<string>() == "read")
                         {
-                            errors.OnNext("Write Error");
+                            var result = new RfidResult()
+                            {
+                                data = json["data"].Value<int>(),
+                                address = json["address"].Value<byte>(),
+                                error = json["error"].Value<bool>()
+                            };
+                            readResults.OnNext(result);
+                            if (result.error)
+                            {
+                                errors.OnNext("Write Error");
+                            }
                         }
                     }
                 }

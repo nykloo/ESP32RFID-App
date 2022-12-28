@@ -34,7 +34,7 @@
                         <Entry  Grid.Column="1"
                                 Placeholder="Hex value" 
                                 VerticalTextAlignment="End" Text="{Binding Value}"></Entry>
-                        <Button  Grid.Column="2" Text="Read" Command="{Binding Read}"></Button>
+                    <Button  Grid.Column="2" Text="Read" Command="{Binding Read}"></Button>
                     <Button  Grid.Column="3" Text="Write" Command="{Binding Write}"></Button>
                     <ProgressBar  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Progress="100" IsVisible="{Binding Waiting}"></ProgressBar>
                 </Grid>

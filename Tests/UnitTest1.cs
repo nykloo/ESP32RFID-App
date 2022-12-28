@@ -10,7 +10,11 @@ namespace Tests
         public void Test1()
         {
             var client = new Mock<IESP32RfidClient>();
-            var kybervm = new KyberModeViewModel(client.Object);
+            var vm = new RawRfidViewModel(client.Object);
+            //assert rfid daata length
+            //test full scan
+            //test word object seperatly
+            //
 
         }
     }
