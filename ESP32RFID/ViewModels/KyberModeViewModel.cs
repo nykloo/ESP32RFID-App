@@ -11,23 +11,26 @@ using System.Diagnostics;
 using Websocket.Client;
 using Newtonsoft.Json.Linq;
 using Command = MvvmHelpers.Commands.Command;
-
+using ESP32RFID.Services;
+using System.Reactive.Linq;
 namespace ESP32RFID.ViewModels
 {
     public class KyberModeViewModel : BaseViewModel
     {
-        ESP32RfidClient client;
-        public KyberModeViewModel()
+        IESP32RfidClient client;
+        public KyberModeViewModel():this(null) { }
+        public KyberModeViewModel(IESP32RfidClient esp32RfidClient =null)
         {
+            client = esp32RfidClient;
             Status = "Not Connected";
-            client = ServiceProvider.GetService<ESP32RfidClient>();
-            client.ReadResults.Subscribe(value =>
+            client ??= ServiceProvider.GetService<IESP32RfidClient>();
+            client.ReadResults.Where(x=>x.address==6).Subscribe(value =>
             {
-                ReadCrystal = Constants.CrystalList.First(x => x.Value == value).Key;
+                ReadCrystal = Constants.CrystalList.First(x => x.Value == value.data).Key;
             });
             client.WriteResults.Subscribe(value =>
             {
-                ReadCrystal = Constants.CrystalList.First(x => x.Value == value).Key;
+                ReadCrystal = Constants.CrystalList.First(x => x.Value == value.data).Key;
             });
             client.Errors.Subscribe(value =>
             {

@@ -12,6 +12,7 @@ using Websocket.Client;
 using Newtonsoft.Json.Linq;
 using Command = MvvmHelpers.Commands.Command;
 using ESP32RFID.Services.IotUpdater;
+using ESP32RFID.Services;
 
 namespace ESP32RFID.ViewModels
 {

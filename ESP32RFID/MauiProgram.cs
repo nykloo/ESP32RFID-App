@@ -1,4 +1,6 @@
-﻿namespace ESP32RFID;
+﻿using ESP32RFID.Services;
+
+namespace ESP32RFID;
 
 public static class MauiProgram
 {
@@ -12,7 +14,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
-		builder.Services.AddSingleton<ESP32RfidClient>();
+		builder.Services.AddSingleton<IESP32RfidClient,ESP32RfidClient>();
         return builder.Build();
 	}
 }
