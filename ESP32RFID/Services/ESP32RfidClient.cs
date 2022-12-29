@@ -74,14 +74,14 @@ namespace ESP32RFID.Services
                 var url = new Uri($"ws://{host}/ws");
                 Debug.WriteLine($"ws for {url}");
                 wsClient ??= new WebsocketClient(url);
-                wsClient.ReconnectTimeout = TimeSpan.FromSeconds(30);
+                wsClient.ReconnectTimeout = TimeSpan.FromSeconds(90);
                 wsClient.ReconnectionHappened.Subscribe(info => {
                     connectionState.OnNext(ESP32RfidClientState.CONNECTED);
                 }
                 );
                 wsClient.DisconnectionHappened.Subscribe(info => connectionState.OnNext(ESP32RfidClientState.CONNECTING));
                 wsClient.MessageReceived.Subscribe(handleMessage);
-                await Task.Run(() => StartSendingPing(client));
+               // await Task.Run(() => StartSendingPing(client));
 
 
             });

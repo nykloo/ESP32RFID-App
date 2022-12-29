@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: esp32-rfid-windows
-          path: ESP32RFID/bin/Release/net6.0-windows10.0.19041.0/win10-x64/AppPackages/ESP32RFID*/ESP32RFID*.msix
+          path: ESP32RFID/bin/Release/net6.0-windows10.0.19041.0/win10-x64/publish/
 
 # MAUI MacCatalyst Build
   build-mac:
