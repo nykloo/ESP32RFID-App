@@ -11,7 +11,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 
-/* Unmerged change from project 'ESP32RFID (net7.0)'
+/* Unmerged change from project 'ESP32RFID (net6.0)'
 Before:
 using System.Net;
 After:
