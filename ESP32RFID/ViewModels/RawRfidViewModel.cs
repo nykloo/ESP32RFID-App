@@ -11,7 +11,7 @@ using System.Diagnostics;
 using Websocket.Client;
 using Newtonsoft.Json.Linq;
 
-/* Unmerged change from project 'ESP32RFID (net6.0-windows10.0.19041.0)'
+/* Unmerged change from project 'ESP32RFID (net7.0-windows10.0.19041.0)'
 Before:
 using Command = MvvmHelpers.Commands.Command;
 After:
