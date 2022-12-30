@@ -14,6 +14,7 @@ using Command = MvvmHelpers.Commands.Command;
 using ESP32RFID.Services.IotUpdater;
 using ESP32RFID.Services;
 using CommunityToolkit.Maui.Alerts;
+using ServiceProvider = ESP32RFID.Services.ServiceProvider;
 
 namespace ESP32RFID.ViewModels
 {

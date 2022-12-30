@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ESP32RFID
+namespace ESP32RFID.Services
 {
     public static class ServiceProvider
     {
@@ -14,13 +14,13 @@ namespace ESP32RFID
         public static IServiceProvider Current
             =>
 #if WINDOWS10_0_17763_0_OR_GREATER
-			MauiWinUIApplication.Current.Services;
+            MauiWinUIApplication.Current.Services;
 #elif ANDROID
             MauiApplication.Current.Services;
 #elif IOS || MACCATALYST
                 MauiUIApplicationDelegate.Current.Services;
 #else
-			null;
+            null;
 #endif
     }
 }

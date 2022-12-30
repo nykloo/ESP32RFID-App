@@ -13,6 +13,8 @@ using Newtonsoft.Json.Linq;
 using Command = MvvmHelpers.Commands.Command;
 using ESP32RFID.Services;
 using System.Reactive.Linq;
+using ServiceProvider = ESP32RFID.Services.ServiceProvider;
+
 namespace ESP32RFID.ViewModels
 {
     public class KyberModeViewModel : BaseViewModel

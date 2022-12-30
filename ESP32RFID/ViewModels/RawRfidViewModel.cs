@@ -10,6 +10,7 @@ using Plugin.BLE;
 using System.Diagnostics;
 using Websocket.Client;
 using Newtonsoft.Json.Linq;
+using ServiceProvider = ESP32RFID.Services.ServiceProvider;
 
 /* Unmerged change from project 'ESP32RFID (net6.0-windows10.0.19041.0)'
 Before:

@@ -63,25 +63,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="RawRfidPage.xaml.cs">
+	  <Compile Update="Views\RawRfidPage.xaml.cs">
 	    <DependentUpon>RawRfidPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="KyberPage.xaml">
+	  <MauiXaml Update="Views\KyberPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="RawRfidPage.xaml">
+	  <MauiXaml Update="Views\RawRfidPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Settings.xaml">
+	  <MauiXaml Update="Views\Settings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Views\" />
 	</ItemGroup>
 
 </Project>
