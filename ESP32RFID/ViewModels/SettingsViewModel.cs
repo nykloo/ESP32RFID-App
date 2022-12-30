@@ -13,17 +13,18 @@ using Newtonsoft.Json.Linq;
 using Command = MvvmHelpers.Commands.Command;
 using ESP32RFID.Services.IotUpdater;
 using ESP32RFID.Services;
+using CommunityToolkit.Maui.Alerts;
 
 namespace ESP32RFID.ViewModels
 {
     public class SettingViewModel : BaseViewModel
     {
-        ESP32RfidClient client;
+        IESP32RfidClient client;
         updater _updater = new updater();
         public SettingViewModel()
         {
             Status = "Not Connected";
-            client = ServiceProvider.GetService<ESP32RfidClient>();
+            client = ServiceProvider.GetService<IESP32RfidClient>();
             client.ConnectionState.Subscribe(state =>
             {
                 if (state == ESP32RfidClientState.CONNECTED) { Status = "Connected"; }
@@ -59,9 +60,13 @@ namespace ESP32RFID.ViewModels
                 var result = await FilePicker.Default.PickAsync();
                 if (result != null)
                 {
-                    if (result.FileName.EndsWith(".bin", StringComparison.OrdinalIgnoreCase) )
+                    if (result.FileName.Equals("firmware.bin", StringComparison.OrdinalIgnoreCase) )
                     {
                         FirmwarePath= result.FullPath;
+                    }
+                    else
+                    {
+                        _=Toast.Make($"File is not valid {result.FileName}. File must be firmware.bin").Show();
                     }
                 }
 
@@ -75,15 +80,24 @@ namespace ESP32RFID.ViewModels
         {
             try
             {
-                Task.Run(() => { 
-                var update = File.ReadAllBytes(firmwarePath);
-                _updater.update("kyber.local", 3232, 3232, "", update, (msg) => {
-                    MainThread.BeginInvokeOnMainThread(() =>
+                if (string.IsNullOrEmpty(FirmwarePath))
+                {
+                   _= Toast.Make($"Please select a file").Show();
+                }
+                else
+                {
+                    Task.Run(() =>
                     {
-                        LogText += msg + "\n";
+                        var update = File.ReadAllBytes(firmwarePath);
+                        _updater.update("kyber.local", 3232, 3232, "", update, (msg) =>
+                        {
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                LogText += msg + "\n";
+                            });
+                        });
                     });
-                });
-                });
+                }
             }
             catch (Exception ex)
             {
@@ -92,8 +106,8 @@ namespace ESP32RFID.ViewModels
         });
 
         private string status = "Not Connected";
-        private string ssid = "JuggSlug";
-        private string password = "wittypotato608";
+        private string ssid = "";
+        private string password = "";
         private string firmwarePath = "";
         private string logText = "";
         private bool isAp = false;

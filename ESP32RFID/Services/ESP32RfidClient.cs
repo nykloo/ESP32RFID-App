@@ -62,6 +62,7 @@ namespace ESP32RFID.Services
         public IObservable<string> Errors => errors.AsObservable();
         WebsocketClient wsClient;
         bool Connected;
+        private Uri url;
         ~ESP32RfidClient()
         {
             wsClient?.Dispose();
@@ -69,21 +70,12 @@ namespace ESP32RFID.Services
         public ESP32RfidClient(string host = "kyber.local", WebsocketClient client = null)
         {
             wsClient = client;
-            _ = Task.Run(async () =>
+            _ = Task.Run(() =>
             {
-                var url = new Uri($"ws://{host}/ws");
+                url = new Uri($"ws://{host}/ws");
                 Debug.WriteLine($"ws for {url}");
                 wsClient ??= new WebsocketClient(url);
-                wsClient.ReconnectTimeout = TimeSpan.FromSeconds(90);
-                wsClient.ReconnectionHappened.Subscribe(info => {
-                    connectionState.OnNext(ESP32RfidClientState.CONNECTED);
-                }
-                );
-                wsClient.DisconnectionHappened.Subscribe(info => connectionState.OnNext(ESP32RfidClientState.CONNECTING));
-                wsClient.MessageReceived.Subscribe(handleMessage);
-               // await Task.Run(() => StartSendingPing(client));
-
-
+                wsSetup();
             });
             ConnectionState.Subscribe(state =>
             {
@@ -97,6 +89,22 @@ namespace ESP32RFID.Services
                 }
             });
         }
+
+        private void wsSetup()
+        {
+            wsClient.ReconnectTimeout = TimeSpan.FromSeconds(90);
+            wsClient.ReconnectionHappened.Subscribe(info =>
+            {
+                if (info.Type != ReconnectionType.Error)
+                {
+                    connectionState.OnNext(ESP32RfidClientState.CONNECTED);
+                }
+            }
+            );
+            wsClient.DisconnectionHappened.Subscribe(info => connectionState.OnNext(ESP32RfidClientState.CONNECTING));
+            wsClient.MessageReceived.Subscribe(handleMessage);
+        }
+
         private async Task StartSendingPing(WebsocketClient client)
         {
             while (true)
@@ -117,7 +125,9 @@ namespace ESP32RFID.Services
             {
                 Debug.WriteLine(ex.ToString());
                 connectionState.OnNext(ESP32RfidClientState.DISCONNECTED);
-
+                wsClient.Dispose();
+                wsClient = new(url);
+                wsSetup();
             }
         }
         public void ReadKyber()

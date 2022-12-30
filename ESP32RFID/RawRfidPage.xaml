@@ -7,12 +7,17 @@
     <ContentPage.BindingContext>
         <vm:RawRfidViewModel></vm:RawRfidViewModel>
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Button Command="{Binding StartFullScan}" Text="Scan All"></Button>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Command="{Binding StartFullScan}" Text="Scan All"></Button>
+        <ScrollView Grid.Row="1">
         <CollectionView ItemsSource="{Binding RfidData}"  >
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                <Grid Padding="3" Margin="2">
+                <DataTemplate >
+                <Grid Padding="3" Margin="2" HeightRequest="40">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="2"></RowDefinition>
@@ -41,5 +46,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

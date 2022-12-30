@@ -14,13 +14,6 @@
             Padding="30,0"
             VerticalOptions="Center">
             <HorizontalStackLayout Padding="5" Spacing="5">
-                <Button Text="Connect" Command="{Binding Connect}"></Button>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Padding="5" Spacing="5">
-                <Label VerticalTextAlignment="End" Text="Status: "></Label>
-                <Label VerticalTextAlignment="End" Text="{Binding Status}"></Label>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Padding="5" Spacing="5">
                 <Picker ItemsSource="{Binding CrystalNames}" SelectedItem="{Binding SelectedCrystal}"></Picker>
                 <Button Text="Start Writing Mode" Command="{Binding StartWrite}"></Button>
             </HorizontalStackLayout>

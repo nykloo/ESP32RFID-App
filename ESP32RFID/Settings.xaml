@@ -9,9 +9,13 @@
     <ContentPage.BindingContext>
         <vm:SettingViewModel></vm:SettingViewModel>
     </ContentPage.BindingContext>
-    <VerticalStackLayout  >
-        <Label Text="{Binding Status}"></Label>
-        <Frame>
+    <Grid RowSpacing="3" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0">
             <VerticalStackLayout>
             <Label FontAttributes="Bold">Wifi</Label>
             <HorizontalStackLayout>
@@ -29,7 +33,7 @@
                 <Button Text="Set Wifi Settings" Command="{Binding SetWifi}"></Button>
             </VerticalStackLayout>
         </Frame>
-        <Frame>
+        <Frame  Grid.Row="1">
             <VerticalStackLayout>
                 <Label FontAttributes="Bold">Firmware</Label>
                 <HorizontalStackLayout>
@@ -41,10 +45,10 @@
                 <Button Text="Upload Firmware bin" Command="{Binding UploadFirmware}"></Button>
             </VerticalStackLayout>
         </Frame>
-        <ScrollView HeightRequest="200">
+        <ScrollView  Grid.Row="2" HeightRequest="200">
             <Label  Text="{Binding LogText}">
              
             </Label>
         </ScrollView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

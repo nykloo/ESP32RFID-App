@@ -1,4 +1,5 @@
-﻿using ESP32RFID.Services;
+﻿using CommunityToolkit.Maui;
+using ESP32RFID.Services;
 
 namespace ESP32RFID;
 
@@ -8,7 +9,7 @@ public static class MauiProgram
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
-			.UseMauiApp<App>()
+			.UseMauiApp<App>().UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -69,7 +69,7 @@ namespace ESP32RFID.Services
                 var t = sock2.ReceiveAsync();
                 t.Wait(10000);
                 var res = t.Result;
-                if (res == null)
+                if (res.Buffer.Length > 0 )
                 {
                     log("No Response");
                     {
